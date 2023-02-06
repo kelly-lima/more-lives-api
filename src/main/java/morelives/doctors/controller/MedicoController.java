@@ -1,5 +1,6 @@
 package morelives.doctors.controller;
 
+import jakarta.validation.Valid;
 import morelives.doctors.domain.Medico;
 import morelives.doctors.domain.dto.DadosCadastroMedicoDTO;
 import morelives.doctors.repositories.MedicoRepository;
@@ -16,7 +17,7 @@ public class MedicoController {
 
     @PostMapping
     @Transactional
-    public void cadastrar(@RequestBody DadosCadastroMedicoDTO dados){
+    public void cadastrar(@RequestBody @Valid DadosCadastroMedicoDTO dados){
         repository.save(new Medico(dados));
     }
 
