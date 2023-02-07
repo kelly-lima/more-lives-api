@@ -9,19 +9,20 @@ import morelives.doctors.domain.enums.Especialidade;
 
 public record DadosCadastroMedicoDTO(
 
-        @NotBlank
+        @NotBlank(message = "Obrigatório informar nome")
         String nome,
 
-        @NotBlank
+        @NotBlank(message = "Obrigatório informar email")
         @Email
         String email,
+
         @NotBlank
+        String telefone,
+        @NotBlank(message = "Obrigatório informar o CRM do médico")
         @Pattern(regexp = "\\d{4,6}")
         String crm,
-        @NotNull
+        @NotNull(message = "Obrigatório informar a especialidade")
         Especialidade especialidade,
-
-
         @NotNull @Valid DadosEnderecoDTO endereco) {
 
 }
