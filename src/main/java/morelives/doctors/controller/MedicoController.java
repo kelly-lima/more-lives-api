@@ -2,6 +2,7 @@ package morelives.doctors.controller;
 
 import jakarta.validation.Valid;
 import morelives.doctors.domain.Medico;
+import morelives.doctors.domain.dto.DadosAtualizacaoMedicoDTO;
 import morelives.doctors.domain.dto.DadosCadastroMedicoDTO;
 import morelives.doctors.domain.dto.DadosListagemMedicoDTO;
 import morelives.doctors.repositories.MedicoRepository;
@@ -29,6 +30,20 @@ public class MedicoController {
 
     @GetMapping
     public Page<DadosListagemMedicoDTO> listar(@PageableDefault(size=10, sort = {"nome"}) Pageable paginacao){
-        return repository.findAll(paginacao).map(DadosListagemMedicoDTO::new);
+        return repository.findAllByAtivoTrue(paginacao).map(DadosListagemMedicoDTO::new);
+    }
+
+    @PutMapping
+    @Transactional
+    public void atualizar(@RequestBody @Valid DadosAtualizacaoMedicoDTO dados){
+            var medico = repository.getReferenceById(dados.id());
+            medico.atualizarInformacoes(dados);
+    }
+
+    @DeleteMapping("/{id}")
+    @Transactional
+    public void excluir(@PathVariable Long id){
+        var medico = repository.getReferenceById(id);
+        medico.excluir();
     }
 }
